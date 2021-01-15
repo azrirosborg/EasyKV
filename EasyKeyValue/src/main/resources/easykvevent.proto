@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "dk.anaha.easykv.server.communication";
+
+service easykvevent{
+    rpc eventWatcher(KeyEvent)   returns (Empty);
+}
+message KeyEvent{
+	string key = 1;
+	int32 eventType = 2;
+}
+message Empty{
+}

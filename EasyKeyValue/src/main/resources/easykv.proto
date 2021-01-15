@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+option java_package = "dk.anaha.easykv.server.communication";
+
+service easykv{
+    rpc register(ClientId)   returns (Bool);
+    rpc read(Key)            returns (Value);
+    rpc write(KeyValue)      returns (Bool);
+    rpc delete(Key)          returns (Bool);
+    rpc exist(Key)           returns (Bool);
+    rpc list(Key)            returns (Keys);
+
+    rpc lpush(KeyString)     returns (Bool);
+    rpc rpush(KeyString)     returns (Bool);
+    rpc lpop(Key)            returns (StringValue);
+    rpc rpop(Key)            returns (StringValue);
+    rpc ltrim(KeyTrim)       returns (Bool);
+    rpc llen(Key)            returns (IntValue);
+    rpc lcontains(KeyString) returns (Bool);
+    rpc lget(Key)            returns (Strings);
+    
+    rpc incrby(KeyLong)      returns (LongValue);
+    rpc decrby(KeyLong)      returns (LongValue);
+    
+    rpc expire(KeyLong)      returns (Bool);
+    rpc expireat(KeyLong)    returns (Bool);
+    rpc ttl(Key)             returns (LongValue);
+
+	rpc watch(KeyWatcher)   returns (Bool);
+	rpc unwatch(KeyWatcher) returns (Bool);
+}
+
+message ClientId{
+	string id = 1;
+}
+message KeyWatcher {
+	string host = 1;
+	int32 port = 2;
+	string key = 3;
+}
+message Key{
+	string key = 1;
+}
+message Keys{
+	repeated string key = 1;
+}
+message Strings{
+	repeated string value = 1;
+}
+message Value{
+	bytes value = 1;
+}
+message StringValue{
+	string value = 1;
+}
+message Bool{
+	bool success = 1;
+}
+message KeyValue{
+	Key key = 1;
+	Value value = 2;
+}
+message KeyString{
+	Key key = 1;
+	StringValue value = 2;
+}
+message LongValue{
+	uint64 value = 1;
+}
+message IntValue{
+	int32 value = 1;
+}
+message KeyTrim{
+	Key key = 1;
+	IntValue maxCount = 2;
+}
+message KeyLong{
+	Key key = 1;
+	LongValue value = 2;
+}
